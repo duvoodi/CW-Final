@@ -1,0 +1,93 @@
+\documentclass[titlepage]{article}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\usepackage{xcolor}
+\definecolor{Gray}{rgb}{0.5,0.5,0.5} % خاکستری
+
+\usepackage[pdfborder={0 0 0}, bookmarks=true]{hyperref}
+% آپشن اول بردر ها لینک را حذف میکند و باید دستی لینک ها را اندر لاین کرد
+
+\usepackage{graphicx}
+\graphicspath{ {./img/} }
+
+\usepackage[most]{tcolorbox}
+
+\usepackage{changepage}
+
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\small,           % فونت اصلی برای کد
+  numbers=left,                         % شماره خطوط در سمت چپ
+  numberstyle=\tiny\color{Gray},        % استایل شماره خطوط
+  breaklines=true,                      % شکستن خطوط بلند
+  breakatwhitespace=true,               % شکستن خطوط در محل فاصله‌ها
+  showstringspaces=false,               % حذف فاصله‌های خاص در رشته‌ها
+  tabsize=2,                            % اندازه تب
+  captionpos=b,                         % موقعیت عنوان (بالا/پایین)
+}
+
+\usepackage{comment}
+
+\begin{document}
+
+\tcbset{
+  inline/.style={
+    colframe=gray,                     % رنگ قاب
+    colback=gray!10,                   % رنگ پس‌زمینه
+    fonttitle=\bfseries,               % استایل عنوان
+    boxrule=0.4pt,                     % ضخامت قاب
+    left=-1pt, right=-1pt,             % فاصله متن از چپ و راست
+    top=0pt, bottom=0pt,               % فاصله متن از بالا و پایین
+    height=10.9pt,                     % ارتفاع ثابت باکس
+    valign=center,                     % تراز عمودی محتوا در باکس
+    baseline=2.9pt,                    % تنظیم خط پایه باکس
+    before=\vspace{0pt},               % فاصله قبل از باکس
+    after=\vspace{0pt},                % فاصله بعد از باکس
+    enhanced,                          % فعال‌سازی تنظیمات پیشرفته
+    breakable,                         % اجازه شکستن خطوط
+    fontupper=\ttfamily\small,         % تنظیم فونت محتوای داخل باکس
+  },
+}
+\tcbset{
+  codebox/.style={
+    colframe=gray,                     % رنگ قاب
+    colback=gray!10,                   % رنگ پس‌زمینه
+    boxrule=0.4pt,                     % ضخامت قاب
+    left=1pt, right=1pt,               % فاصله از چپ و راست
+    top=-4pt, bottom=-4pt,             % فاصله از بالا و پایین
+    valign=center,                     % تراز عمودی محتوا در باکس
+    enhanced,                          % فعال‌سازی تنظیمات پیشرفته
+    breakable,                         % اجازه شکستن خطوط
+  },
+}
+\tcbset{
+  picframe/.style={
+    colframe=gray,                     % رنگ قاب
+    colback=gray!10,                   % رنگ پس‌زمینه
+    boxrule=0.4pt,                     % ضخامت قاب
+    left=1pt, right=1pt,               % فاصله از چپ و راست
+    top=1pt, bottom=1pt,               % فاصله از بالا و پایین
+    valign=center,                     % تراز عمودی محتوا در باکس
+    enhanced,                          % فعال‌سازی تنظیمات پیشرفته
+    breakable,                         % اجازه شکستن خطوط
+  },
+}
+
+\title{\textbf{Computer Workshop\\Final Assignment}}
+\author{Dr. MalekiMajd}
+\date{Amir Mohammad Davoodi\\Winter of 4031}
+\maketitle
+
+\fancyhead{}
+\fancyhead[L]{Final Assignment}
+\fancyhead[R]{Computer Workshop Course}
+\fancyfoot{}
+\fancyfoot[C]{Page \thepage}
+
+\tableofcontents 
+
+\pagebreak
+
+\end{document}
