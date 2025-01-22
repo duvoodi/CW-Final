@@ -90,4 +90,100 @@
 
 \pagebreak
 
+\section{Git and GitHub}
+
+\subsection{Repository Initialization and Commits}
+\begin{enumerate}
+\item \textbf{Create a GitHub Repository}  
+\\First, I created a new repository on GitHub. This repository would contain my \LaTeX \hspace{0pt} source files and the configuration for the workflow.
+\item \textbf{Clone the Repository Locally} 
+\\To work on the repository locally, I cloned it to my computer using the following command:  
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]
+  git clone <repo_link>
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+\item \textbf{Local Changes and Git Operations}
+\\After that, I made my changes locally and in each step, I added and committed changes, and pushed them to my GitHub repository, with the following commands:
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]
+  git commit -am "commit message"
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]  
+  git push --all
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+\end{enumerate}
+
+\subsection{GitHub Actions for \LaTeX \hspace{0pt} Compilation}
+In my local repository, I created a GitHub Actions workflow file named \tcbox[inline]{main.yml} in the \tcbox[inline]{.github/workflows/} directory. This file automates the process of compiling the \LaTeX \hspace{0pt} document into a PDF and releasing it whenever a new tag is pushed. 
+\vspace{5pt}
+\\I set up the workflow file as follows:
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}
+name: Release Compiled PDF 
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  build_latex:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: main.tex
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ./main.pdf
+          asset_name: main.pdf
+          asset_content_type: pdf
+\end{lstlisting}  
+\end{tcolorbox}
+\vspace{5pt}
+\noindent Here's a breakdown of what each part does:
+\begin{itemize}
+\item \textbf{Workflow Trigger (on)}
+\\ The workflow is triggered when a tag with a version number (in the format of \tcbox[inline]{*.*.*}, such as \tcbox[inline]{1.0.0}) is pushed to the repository.
+\item \textbf{Job (build\_latex)}
+\\ This job runs on an Ubuntu-based virtual machine (\tcbox[inline]{runs-on: ubuntu-latest}).
+\item \textbf{Steps:}
+\begin{itemize}
+\item Set up Git repository: Uses the \tcbox[inline]{actions/checkout@v2} action to clone the repository so that the workflow can access the \LaTeX \hspace{0pt} files.
+\item Compile \LaTeX \hspace{0pt} file: Uses the \tcbox[inline]{xu-cheng/latex-action@v2} action to compile the \LaTeX \hspace{0pt} document \tcbox[inline]{main.tex} into a PDF. This step produces a \tcbox[inline]{main.pdf} file.
+\item Create Release: Uses the \tcbox[inline]{actions/create-release@v1} action to create a GitHub release with the tag name based on the version pushed (e.g., \tcbox[inline]{1.0.0}). It sets the release as non-draft and non-prerelease, and attaches a release name (e.g., Release \tcbox[inline]{1.0.0}).
+\item Upload Release Asset: Uses the \tcbox[inline]{actions/upload-release-asset@v1} action to upload the compiled PDF \tcbox[inline]{main.pdf} as an asset to the release created in the previous step. This allows users to download the PDF from the release page.
+\end{itemize}
+\end{itemize}
+
 \end{document}
