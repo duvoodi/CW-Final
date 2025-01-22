@@ -92,4 +92,35 @@
 
 \section{Git and GitHub}
 
+\subsection{Repository Initialization and Commits}
+\begin{enumerate}
+\item \textbf{Create a GitHub Repository}  
+\\First, I created a new repository on GitHub. This repository would contain my \LaTeX \hspace{0pt} source files and the configuration for the workflow.
+\item \textbf{Clone the Repository Locally} 
+\\To work on the repository locally, I cloned it to my computer using the following command:  
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]
+  git clone <repo_link>
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+\item \textbf{Local Changes and Git Operations}
+\\After that, I made my changes locally and in each step, I added and committed changes, and pushed them to my GitHub repository, with the following commands:
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]
+  git commit -am "commit message"
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]  
+  git push --all
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+\end{enumerate}
+
 \end{document}
