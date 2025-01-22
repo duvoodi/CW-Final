@@ -267,4 +267,67 @@ This command checks for memory leaks and provides detailed information about whe
 \item Initialize variables before use.
 \end{itemize}
 
+\subsection{GNU/Linux Bash Scripting}
+\subsubsection{fzf}
+Fuzzy searching is a technique that finds approximate matches to a given search query instead of requiring an exact match. It allows users to locate information even if they mistype words or use partial input by considering possible variations, omissions, or substitutions in the search string.
+\\This technique is commonly used in search engines, spell checkers, and command-line tools like \textit{fzf}.
+\vspace{8pt}
+\\What does \tcbox[inline]{ls | fzf} do?
+\begin{itemize}
+\item \tcbox[inline]{ls} lists the files and directories in the current directory.
+\item The output of \tcbox[inline]{ls} is then piped (\tcbox[inline]{|}) into \tcbox[inline]{fzf}, which provides an interactive interface to filter and select items using fuzzy searching.
+\item You can type part of a filename, and \textit{fzf} will dynamically narrow down the list based on your input. Once you select an item and press Enter, the selected filename is returned to the terminal.
+\end{itemize}
+\subsubsection{Using fzf to find your favorite PDF}
+\begin{enumerate}
+\item To find all files with the \tcbox[inline]{.PDF} extension (case-insensitive), use the \tcbox[inline]{fd} command as follows:
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]
+fd -e pdf
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+Explanation:
+\begin{itemize}
+\item \tcbox[inline]{fd}: A fast and user-friendly alternative to find.
+\item \tcbox[inline]{-e pdf}: Searches for files with the extension .pdf (case-insensitive by default).
+\end{itemize}
+If you want to search case-sensitively, use \tcbox[inline]{-e PDF}.
+\item Command to select a PDF using \textit{fzf}:
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]
+fd -e pdf | fzf
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+Explanation:
+\begin{itemize}
+\item The pipe operator (\tcbox[inline]{|}) takes the output from the \tcbox[inline]{fd} command (list of found PDF files) and sends it as input to the next command (\tcbox[inline]{fzf}).
+\item \textit{fzf} provides an interactive interface where you can:
+\begin{itemize}
+\item Start typing to filter the list dynamically.
+\item Use arrow keys to navigate through the filtered results.
+\item Press Enter to select a file, which will then be printed to the terminal.
+\end{itemize}
+\end{itemize}
+\end{enumerate}
+\subsubsection{Opening the file using Zathura}
+To open the selected PDF file using \textit{Zathura}, you can use the following command:
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]
+zathura "$(fd -e pdf | fzf)"
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+Explanation:
+\begin{itemize}
+\item \tcbox[inline]{fd -e pdf | fzf} is a way to interactively search for and select PDF files in a directory using two command-line tools: \tcbox[inline]{fd} and \tcbox[inline]{fzf} with piping.
+\item \tcbox[inline]{\$(command)} The \tcbox[inline]{\$(...)} syntax captures the output of the command inside it and substitutes it as an argument to \tcbox[inline]{zathura}.
+In this case, after selecting a PDF with \textit{fzf}, the full path to the file is passed to \textit{zathura} for opening.
+\item \textit{Zathura} is a lightweight, keyboard-driven PDF viewer designed for minimalism and efficiency.
+\end{itemize}
+
 \end{document}
