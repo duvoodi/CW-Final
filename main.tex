@@ -188,4 +188,39 @@ jobs:
 
 \section{Exploration Tasks}
 
+\subsection{Vim Advanced Features}
+Below are three advanced features of Vim that not have been covered in class:
+\begin{enumerate}
+\item \textbf{Text Objects}
+\\Text objects in Vim are used to select a specific region of text based on its structure. Instead of manually selecting text by character or line, text objects let you select entire blocks of text such as paragraphs, sentences, or words.
+Examples:
+\begin{itemize}
+  \item \tcbox[inline]{ciw} Change inside a word (deletes the word and allows you to insert new text).
+  \item \tcbox[inline]{dap} Delete a paragraph.
+  \item \tcbox[inline]{yi'} Yank text inside single quotes (copy the text within single quotes).
+\end{itemize}
+Text objects significantly enhance the speed and precision of text manipulation without needing to rely on the arrow keys.
+\item \textbf{Macros (Recording Commands)}
+\\Vim macros allow you to record a sequence of commands and then replay them to automate repetitive tasks. Macros are particularly useful when performing the same sequence of actions on multiple lines or chunks of text.
+How to Use:
+\begin{enumerate}
+  \item Start recording with \tcbox[inline]{q} followed by \tcbox[inline]{a} letter (e.g., \tcbox[inline]{qa} to record to the register a).
+  \item Perform the desired actions.
+  \item Stop recording with \tcbox[inline]{q}.
+  \item Replay the macro with \tcbox[inline]{@a}.
+  \item You can also repeat the macro multiple times with a number prefix (e.g., \tcbox[inline]{5@a} to run the macro 5 times).
+\end{enumerate}
+Macros are powerful tools for efficiency in Vim, especially for repetitive editing tasks.
+\item \textbf{Split Windows and Tabs}
+\\Vim allows you to split the editor window both horizontally and vertically. This is useful when you need to view multiple files at once or reference different parts of the same file without losing context.
+How to Use:
+\begin{itemize}
+\item Horizontal split: \tcbox[inline]{:split} or \tcbox[inline]{:sp}.
+\item Vertical split: \tcbox[inline]{:vsplit} or \tcbox[inline]{:vsp}.
+\item Navigate between splits using \tcbox[inline]{Ctrl+w} followed by the direction key (\tcbox[inline]{h}, \tcbox[inline]{j}, \tcbox[inline]{k}, or \tcbox[inline]{l}).
+\item You can also use tabs (\tcbox[inline]{:tabnew}) to work with multiple files in separate tabs.
+\end{itemize}
+These features help in multitasking, enhancing the workflow and organization within Vim.
+\end{enumerate}
+
 \end{document}
