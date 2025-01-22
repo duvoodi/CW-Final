@@ -223,4 +223,48 @@ How to Use:
 These features help in multitasking, enhancing the workflow and organization within Vim.
 \end{enumerate}
 
+\subsection{Memory profiling}
+\subsubsection{Memory Leak}
+A memory leak occurs when a program allocates memory dynamically but fails to release it properly when it’s no longer needed. Over time, the leaked memory accumulates and can eventually lead to the program consuming all available memory, causing it to crash or slow down significantly.
+\noindent Memory leaks typically happen when a program allocates memory but does not free it correctly. This can occur for several reasons:
+\begin{itemize}
+\item \textbf{Forgetting to free memory:} If a program allocates memory using \tcbox[inline]{malloc} or \tcbox[inline]{calloc} but does not call \tcbox[inline]{free} when done, the memory is never released.
+\item \textbf{Losing the reference to dynamically allocated memory:} If you overwrite a pointer that points to dynamically allocated memory without freeing it first, you lose the reference to the memory, making it impossible to free.
+\item \textbf{Not handling errors correctly:} If an error occurs after memory allocation, and the program exits without releasing allocated memory, it results in a memory leak.
+\end{itemize}
+\subsubsection{Memory profilers}
+\textit{Valgrind} is a programming tool used for memory debugging, memory leak detection, and profiling. It helps developers find memory-related bugs in their programs by detecting issues like memory leaks, uninitialized memory access, and improper memory deallocation.
+\\\\\textbf{Purpose of Valgrind:}
+\begin{itemize}
+\item Detect memory leaks and memory corruption.
+\item Check if memory is being accessed before it is initialized or after it has been freed.
+\item Profile memory usage to detect areas where memory consumption is excessive.
+\end{itemize}
+\textbf{How Valgrind Helps with Memory Leaks:}
+When you run your program through \textit{Valgrind}, it tracks all memory allocations and deallocations. If any memory is allocated and not freed before the program terminates, \textit{Valgrind} will report it as a memory leak.
+\\To use \textit{Valgrind}, you should compile your C program with debugging information (-g flag) and run it under \textit{Valgrind} using:
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]  
+valgrind --leak-check=full ./your_program.exe
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+This command checks for memory leaks and provides detailed information about where memory was allocated and not freed.
+\\\textit{Valgrind} Example Output:
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}
+==1234== 1 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==1234==    at 0x4005F1: create_memory_leak (memory_leak.c:6)
+==1234==    by 0x40061D: main (memory_leak.c:9)
+\end{lstlisting}
+\end{tcolorbox}
+\noindent In this output, \textit{Valgrind} reports that one byte of memory was leaked at the location \tcbox[inline]{create\_memory\_leak} function, and provides the file and line number where the allocation occurred.
+\\\\After finding leak you should make sure to make the following modifications to your code:
+\begin{itemize}
+\item Free dynamically allocated memory using \tcbox[inline]{free()} in C or \tcbox[inline]{delete} in C++.
+\item Avoid accessing memory after it has been freed.
+\item Initialize variables before use.
+\end{itemize}
+
 \end{document}
