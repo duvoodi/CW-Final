@@ -186,4 +186,148 @@ jobs:
 \end{itemize}
 \end{itemize}
 
+\section{Exploration Tasks}
+
+\subsection{Vim Advanced Features}
+Below are three advanced features of Vim that not have been covered in class:
+\begin{enumerate}
+\item \textbf{Text Objects}
+\\Text objects in Vim are used to select a specific region of text based on its structure. Instead of manually selecting text by character or line, text objects let you select entire blocks of text such as paragraphs, sentences, or words.
+Examples:
+\begin{itemize}
+  \item \tcbox[inline]{ciw} Change inside a word (deletes the word and allows you to insert new text).
+  \item \tcbox[inline]{dap} Delete a paragraph.
+  \item \tcbox[inline]{yi'} Yank text inside single quotes (copy the text within single quotes).
+\end{itemize}
+Text objects significantly enhance the speed and precision of text manipulation without needing to rely on the arrow keys.
+\item \textbf{Macros (Recording Commands)}
+\\Vim macros allow you to record a sequence of commands and then replay them to automate repetitive tasks. Macros are particularly useful when performing the same sequence of actions on multiple lines or chunks of text.
+How to Use:
+\begin{enumerate}
+  \item Start recording with \tcbox[inline]{q} followed by \tcbox[inline]{a} letter (e.g., \tcbox[inline]{qa} to record to the register a).
+  \item Perform the desired actions.
+  \item Stop recording with \tcbox[inline]{q}.
+  \item Replay the macro with \tcbox[inline]{@a}.
+  \item You can also repeat the macro multiple times with a number prefix (e.g., \tcbox[inline]{5@a} to run the macro 5 times).
+\end{enumerate}
+Macros are powerful tools for efficiency in Vim, especially for repetitive editing tasks.
+\item \textbf{Split Windows and Tabs}
+\\Vim allows you to split the editor window both horizontally and vertically. This is useful when you need to view multiple files at once or reference different parts of the same file without losing context.
+How to Use:
+\begin{itemize}
+\item Horizontal split: \tcbox[inline]{:split} or \tcbox[inline]{:sp}.
+\item Vertical split: \tcbox[inline]{:vsplit} or \tcbox[inline]{:vsp}.
+\item Navigate between splits using \tcbox[inline]{Ctrl+w} followed by the direction key (\tcbox[inline]{h}, \tcbox[inline]{j}, \tcbox[inline]{k}, or \tcbox[inline]{l}).
+\item You can also use tabs (\tcbox[inline]{:tabnew}) to work with multiple files in separate tabs.
+\end{itemize}
+These features help in multitasking, enhancing the workflow and organization within Vim.
+\end{enumerate}
+
+\subsection{Memory profiling}
+\subsubsection{Memory Leak}
+A memory leak occurs when a program allocates memory dynamically but fails to release it properly when it’s no longer needed. Over time, the leaked memory accumulates and can eventually lead to the program consuming all available memory, causing it to crash or slow down significantly.
+\noindent Memory leaks typically happen when a program allocates memory but does not free it correctly. This can occur for several reasons:
+\begin{itemize}
+\item \textbf{Forgetting to free memory:} If a program allocates memory using \tcbox[inline]{malloc} or \tcbox[inline]{calloc} but does not call \tcbox[inline]{free} when done, the memory is never released.
+\item \textbf{Losing the reference to dynamically allocated memory:} If you overwrite a pointer that points to dynamically allocated memory without freeing it first, you lose the reference to the memory, making it impossible to free.
+\item \textbf{Not handling errors correctly:} If an error occurs after memory allocation, and the program exits without releasing allocated memory, it results in a memory leak.
+\end{itemize}
+\subsubsection{Memory profilers}
+\textit{Valgrind} is a programming tool used for memory debugging, memory leak detection, and profiling. It helps developers find memory-related bugs in their programs by detecting issues like memory leaks, uninitialized memory access, and improper memory deallocation.
+\\\\\textbf{Purpose of Valgrind:}
+\begin{itemize}
+\item Detect memory leaks and memory corruption.
+\item Check if memory is being accessed before it is initialized or after it has been freed.
+\item Profile memory usage to detect areas where memory consumption is excessive.
+\end{itemize}
+\textbf{How Valgrind Helps with Memory Leaks:}
+When you run your program through \textit{Valgrind}, it tracks all memory allocations and deallocations. If any memory is allocated and not freed before the program terminates, \textit{Valgrind} will report it as a memory leak.
+\\To use \textit{Valgrind}, you should compile your C program with debugging information (-g flag) and run it under \textit{Valgrind} using:
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]  
+valgrind --leak-check=full ./your_program.exe
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+This command checks for memory leaks and provides detailed information about where memory was allocated and not freed.
+\\\textit{Valgrind} Example Output:
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}
+==1234== 1 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==1234==    at 0x4005F1: create_memory_leak (memory_leak.c:6)
+==1234==    by 0x40061D: main (memory_leak.c:9)
+\end{lstlisting}
+\end{tcolorbox}
+\noindent In this output, \textit{Valgrind} reports that one byte of memory was leaked at the location \tcbox[inline]{create\_memory\_leak} function, and provides the file and line number where the allocation occurred.
+\\\\After finding leak you should make sure to make the following modifications to your code:
+\begin{itemize}
+\item Free dynamically allocated memory using \tcbox[inline]{free()} in C or \tcbox[inline]{delete} in C++.
+\item Avoid accessing memory after it has been freed.
+\item Initialize variables before use.
+\end{itemize}
+
+\subsection{GNU/Linux Bash Scripting}
+\subsubsection{fzf}
+Fuzzy searching is a technique that finds approximate matches to a given search query instead of requiring an exact match. It allows users to locate information even if they mistype words or use partial input by considering possible variations, omissions, or substitutions in the search string.
+\\This technique is commonly used in search engines, spell checkers, and command-line tools like \textit{fzf}.
+\vspace{8pt}
+\\What does \tcbox[inline]{ls | fzf} do?
+\begin{itemize}
+\item \tcbox[inline]{ls} lists the files and directories in the current directory.
+\item The output of \tcbox[inline]{ls} is then piped (\tcbox[inline]{|}) into \tcbox[inline]{fzf}, which provides an interactive interface to filter and select items using fuzzy searching.
+\item You can type part of a filename, and \textit{fzf} will dynamically narrow down the list based on your input. Once you select an item and press Enter, the selected filename is returned to the terminal.
+\end{itemize}
+\subsubsection{Using fzf to find your favorite PDF}
+\begin{enumerate}
+\item To find all files with the \tcbox[inline]{.PDF} extension (case-insensitive), use the \tcbox[inline]{fd} command as follows:
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]
+fd -e pdf
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+Explanation:
+\begin{itemize}
+\item \tcbox[inline]{fd}: A fast and user-friendly alternative to find.
+\item \tcbox[inline]{-e pdf}: Searches for files with the extension .pdf (case-insensitive by default).
+\end{itemize}
+If you want to search case-sensitively, use \tcbox[inline]{-e PDF}.
+\item Command to select a PDF using \textit{fzf}:
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]
+fd -e pdf | fzf
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+Explanation:
+\begin{itemize}
+\item The pipe operator (\tcbox[inline]{|}) takes the output from the \tcbox[inline]{fd} command (list of found PDF files) and sends it as input to the next command (\tcbox[inline]{fzf}).
+\item \textit{fzf} provides an interactive interface where you can:
+\begin{itemize}
+\item Start typing to filter the list dynamically.
+\item Use arrow keys to navigate through the filtered results.
+\item Press Enter to select a file, which will then be printed to the terminal.
+\end{itemize}
+\end{itemize}
+\end{enumerate}
+\subsubsection{Opening the file using Zathura}
+To open the selected PDF file using \textit{Zathura}, you can use the following command:
+\begin{adjustwidth}{1cm}{1cm}
+\begin{tcolorbox}[codebox]
+\begin{lstlisting}[numbers=none]
+zathura "$(fd -e pdf | fzf)"
+\end{lstlisting}
+\end{tcolorbox}
+\end{adjustwidth}
+Explanation:
+\begin{itemize}
+\item \tcbox[inline]{fd -e pdf | fzf} is a way to interactively search for and select PDF files in a directory using two command-line tools: \tcbox[inline]{fd} and \tcbox[inline]{fzf} with piping.
+\item \tcbox[inline]{\$(command)} The \tcbox[inline]{\$(...)} syntax captures the output of the command inside it and substitutes it as an argument to \tcbox[inline]{zathura}.
+In this case, after selecting a PDF with \textit{fzf}, the full path to the file is passed to \textit{zathura} for opening.
+\item \textit{Zathura} is a lightweight, keyboard-driven PDF viewer designed for minimalism and efficiency.
+\end{itemize}
+
 \end{document}
